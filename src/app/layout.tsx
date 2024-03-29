@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={DM_Sans_Font.className}>
+      <body className={DM_Sans_Font.className + ' dark:bg-black bg-white'}>
         <ThemeProvider
           attribute='class'
           defaultTheme='dark'
