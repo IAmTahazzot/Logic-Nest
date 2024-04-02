@@ -83,23 +83,27 @@ export const onCreateNewPageInDatabase = async (
     auth: accessToken,
   })
 
-  console.log(databaseId)
-  const response = await notion.pages.create({
-    parent: {
-      type: 'database_id',
-      database_id: databaseId,
-    },
-    properties: {
-      name: [
-        {
-          text: {
-            content: content,
+  try {
+    const response = await notion.pages.create({
+      parent: {
+        type: 'database_id',
+        database_id: databaseId,
+      },
+      properties: {
+        Name: [
+          {
+            text: {
+              content: content,
+            },
           },
-        },
-      ],
-    },
-  })
-  if (response) {
-    return response
+        ],
+      },
+    })
+
+    if (response) {
+      return response
+    }
+  } catch (error) {
+    console.error(error)
   }
 }

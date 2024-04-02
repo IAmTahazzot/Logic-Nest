@@ -1,8 +1,6 @@
 import { google } from 'googleapis'
 import { auth, clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
-import { v4 as uuidv4 } from 'uuid'
-import { db } from '@/lib/db'
 
 export async function GET() {
   const oauth2Client = new google.auth.OAuth2(
@@ -12,16 +10,20 @@ export async function GET() {
   )
 
   const { userId } = auth()
+
   if (!userId) {
     return NextResponse.json({ message: 'User not found' })
   }
 
+  const provider = 'oauth_google'
+
   const clerkResponse = await clerkClient.users.getUserOauthAccessToken(
     userId,
-    'oauth_google'
+    provider
   )
 
   const accessToken = clerkResponse[0].token
+
   oauth2Client.setCredentials({
     access_token: accessToken,
   })
@@ -30,7 +32,7 @@ export async function GET() {
     version: 'v3',
     auth: oauth2Client,
   })
-  
+
   try {
     const response = await drive.files.list()
 

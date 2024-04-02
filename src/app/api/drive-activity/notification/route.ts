@@ -1,6 +1,6 @@
-import { postContentToWebHook } from '@/app/(main)/(pages)/connections/_actions/discord-connection'
-import { onCreateNewPageInDatabase } from '@/app/(main)/(pages)/connections/_actions/notion-connection'
-import { postMessageToSlack } from '@/app/(main)/(pages)/connections/_actions/slack-connection'
+import { postContentToWebHook } from '@/app/(main)/connections/_actions/discord-connection'
+import { onCreateNewPageInDatabase } from '@/app/(main)/connections/_actions/notion-connection'
+import { postMessageToSlack } from '@/app/(main)/connections/_actions/slack-connection'
 import { db } from '@/lib/db'
 import axios from 'axios'
 import { headers } from 'next/headers'
@@ -82,7 +82,7 @@ export async function POST(req: NextRequest) {
                     url: `${process.env.NGROK_URI}?flow_id=${flow.id}`,
                     enabled: 'true',
                     schedule: {
-                      timezone: 'Europe/Istanbul',
+                      timezone: 'Asia/Singapore',
                       expiresAt: 0,
                       hours: [-1],
                       mdays: [-1],

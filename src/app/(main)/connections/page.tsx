@@ -11,7 +11,7 @@ type Props = {
 }
 
 const Connections = async (props: Props) => {
- const {
+  const {
     webhook_id,
     webhook_name,
     webhook_url,
@@ -55,7 +55,7 @@ const Connections = async (props: Props) => {
   if (!user) return null
 
   const onUserConnections = async () => {
-    console.log(database_id)
+    console.log(props.searchParams)
     await onDiscordConnect(
       channel_id!,
       webhook_id!,
@@ -65,6 +65,7 @@ const Connections = async (props: Props) => {
       guild_name!,
       guild_id!
     )
+
     await onNotionConnect(
       access_token!,
       workspace_id!,
@@ -90,7 +91,7 @@ const Connections = async (props: Props) => {
     const user_info = await getUserData(user.id)
 
     //get user info with all connections
-    user_info?.connections.map((connection) => {
+    user_info?.connections.map(connection => {
       connections[connection.type] = true
       return (connections[connection.type] = true)
     })
@@ -101,7 +102,6 @@ const Connections = async (props: Props) => {
   }
 
   const connections = await onUserConnections()
-
 
   return (
     <div className='relative flex flex-col gap-4'>

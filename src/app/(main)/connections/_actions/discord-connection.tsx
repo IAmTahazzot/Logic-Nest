@@ -13,6 +13,7 @@ export const onDiscordConnect = async (
   guild_name: string,
   guild_id: string
 ) => {
+
   //check if webhook id params set
   if (webhook_id) {
     //check if webhook exists in database with userid

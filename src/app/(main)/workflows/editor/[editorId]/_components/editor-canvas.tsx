@@ -183,7 +183,7 @@ const EditorCanvas = (props: Props) => {
       <ResizablePanel defaultSize={70}>
         <div className="flex h-full items-center justify-center">
           <div
-            style={{ width: '100%', height: '100%', paddingBottom: '70px' }}
+            style={{ width: '100%', height: '100%' }}
             className="relative"
           >
             {isWorkFlowLoading ? (
