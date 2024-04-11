@@ -1,37 +1,34 @@
 import { google } from 'googleapis'
-import { auth, clerkClient } from '@clerk/nextjs'
+import { clerkClient, currentUser } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
-  const oauth2Client = new google.auth.OAuth2(
+  const auth = new google.auth.OAuth2(
     process.env.GOOGLE_CLIENT_ID,
     process.env.GOOGLE_CLIENT_SECRET,
     process.env.OAUTH2_REDIRECT_URI
   )
 
-  const { userId } = auth()
+  const user = await currentUser()
 
-  if (!userId) {
-    return NextResponse.json({ message: 'User not found' })
+  if (!user) {
+    return NextResponse.json(
+      { error: 'You must be signed in' },
+      { status: 401 }
+    )
   }
 
-  const provider = 'oauth_google'
-
-  const clerkResponse = await clerkClient.users.getUserOauthAccessToken(
-    userId,
-    provider
+  console.log('getting token')
+  const tokens = await clerkClient.users.getUserOauthAccessToken(
+    user.id,
+    'oauth_google'
   )
-
-  const accessToken = clerkResponse[0].token
-
-  oauth2Client.setCredentials({
-    access_token: accessToken,
+console.log(tokens)
+  auth.setCredentials({
+    access_token: tokens[0].token,
   })
 
-  const drive = google.drive({
-    version: 'v3',
-    auth: oauth2Client,
-  })
+  const drive = google.drive({ version: 'v3', auth: auth })
 
   try {
     const response = await drive.files.list()

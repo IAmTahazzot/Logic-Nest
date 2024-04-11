@@ -2,6 +2,7 @@ import { db } from '@/lib/db'
 import { NextResponse } from 'next/server'
 
 export async function POST(req: Request) {
+  console.log('-------------------')
   try {
     const body = await req.json()
     const { id, email_addresses, first_name, image_url } = body?.data
